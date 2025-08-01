@@ -98,15 +98,33 @@ class WhatsAppBot {
             console.log('- !delete voice [name] - Delete a saved voice');
             console.log('- !spam [message] [amount] - Send spam messages (5 per second)');
             console.log('');
+            console.log('🔍 Debugging mode enabled - all messages will show detailed logs');
         });
 
-        // Handle incoming messages
-        this.client.on('message', async (message) => {
+        // Handle ALL messages for debugging
+        this.client.on('message_create', async (message) => {
+            console.log('🔔 Message created event received!');
+            console.log('📝 Content:', message.body || 'No body');
+            console.log('👤 From me:', message.fromMe);
+            console.log('📱 Message type:', message.type);
+            
             try {
                 await this.handleMessage(message);
             } catch (error) {
                 console.error('Error handling message:', error);
-                await message.reply('❌ An error occurred while processing your message.');
+            }
+        });
+
+        // Handle incoming messages (legacy)
+        this.client.on('message', async (message) => {
+            console.log('🔔 Message event received!');
+            console.log('📝 Content:', message.body || 'No body');
+            console.log('👤 From me:', message.fromMe);
+            
+            try {
+                await this.handleMessage(message);
+            } catch (error) {
+                console.error('Error handling message:', error);
             }
         });
 
