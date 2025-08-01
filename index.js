@@ -51,6 +51,7 @@ class WhatsAppBot {
             console.log('- ![name] - Play saved voice message');
             console.log('- !list voices - List all saved voices');
             console.log('- !delete voice [name] - Delete a saved voice');
+            console.log('- !spam [message] [amount] - Send spam messages (5 per second)');
             console.log('');
         });
 
@@ -95,6 +96,8 @@ class WhatsAppBot {
         // Parse and handle commands
         if (content.startsWith('!save voice ')) {
             await this.handleSaveVoiceCommand(message, content);
+        } else if (content.startsWith('!spam ')) {
+            await this.handleSpamCommand(message, content);
         } else if (content.startsWith('!') && !content.includes(' ')) {
             await this.handlePlayVoiceCommand(message, content);
         } else if (content === '!list voices') {
@@ -193,6 +196,57 @@ class WhatsAppBot {
         } catch (error) {
             console.error(`Error deleting voice ${voiceName}:`, error);
             await message.reply(`❌ Error deleting voice "${voiceName}".`);
+        }
+    }
+
+    async handleSpamCommand(message, content) {
+        // Parse command: !spam [message] [amount]
+        const parts = content.replace('!spam ', '').trim().split(' ');
+        
+        if (parts.length < 2) {
+            await message.reply('❌ Usage: !spam [message] [amount]\nExample: !spam hello 10');
+            return;
+        }
+
+        const amount = parseInt(parts[parts.length - 1]);
+        const messageText = parts.slice(0, -1).join(' ');
+
+        if (isNaN(amount) || amount <= 0) {
+            await message.reply('❌ Amount must be a positive number');
+            return;
+        }
+
+        if (amount > 100) {
+            await message.reply('❌ Maximum 100 messages allowed');
+            return;
+        }
+
+        if (!messageText.trim()) {
+            await message.reply('❌ Please provide a message to spam');
+            return;
+        }
+
+        try {
+            await message.reply(`🚀 Starting spam: "${messageText}" x ${amount} times`);
+            console.log(`📢 Starting spam: "${messageText}" x ${amount} times`);
+
+            const chat = await message.getChat();
+            const delay = 200; // 200ms delay = 5 messages per second
+
+            for (let i = 1; i <= amount; i++) {
+                await chat.sendMessage(`${messageText}`);
+                console.log(`📤 Spam message ${i}/${amount} sent`);
+                
+                // Add delay between messages (5 per second)
+                if (i < amount) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+
+            console.log(`✅ Spam completed: ${amount} messages sent`);
+        } catch (error) {
+            console.error('Error during spam:', error);
+            await message.reply(`❌ Error during spam: ${error.message}`);
         }
     }
 

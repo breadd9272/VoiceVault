@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a WhatsApp bot that enables users to save, manage, and replay voice messages through text commands. The bot integrates with WhatsApp Web using the `whatsapp-web.js` library and provides a command-based interface for voice message management. Users can save voice messages with custom names, list all saved voices, delete specific voices, and replay them on demand.
+This is a WhatsApp bot that enables users to save, manage, and replay voice messages through text commands. The bot integrates with WhatsApp Web using the `whatsapp-web.js` library and provides a command-based interface for voice message management. Users can save voice messages with custom names, list all saved voices, delete specific voices, replay them on demand, and send spam messages at a controlled rate.
 
 ## User Preferences
 
@@ -30,10 +30,12 @@ The application follows a modular, event-driven architecture with clear separati
 - Support for multiple audio formats (OGG, MP3, WAV, M4A)
 - File size limitations (16MB maximum) and validation
 
-### Command Processing
+### Command Processing  
 - Text-based command interface with specific prefixes
 - Stateful command handling for multi-step operations (save voice workflow)
 - Pending voice tracking using in-memory Map for temporary state management
+- Spam messaging feature with rate limiting (5 messages per second, max 100 messages)
+- Message parsing and validation for command parameters
 
 ### Error Handling and Logging
 - Comprehensive error handling for file operations and WhatsApp events
