@@ -89,13 +89,26 @@ if [[ "$PREFIX" == *"com.termux"* ]]; then
     print_success "Created Termux-specific directories"
 fi
 
-# Step 6: Install npm dependencies
+# Step 6: Install npm dependencies (Termux-optimized)
 print_status "Installing npm dependencies..."
+
+# Use Termux-specific package.json if available
+if [[ "$PREFIX" == *"com.termux"* ]] && [[ -f "package-termux.json" ]]; then
+    print_status "Using Termux-optimized package configuration..."
+    cp package-termux.json package.json
+fi
+
+# Skip Puppeteer download for Android
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_SKIP_DOWNLOAD=true
+
+# Install dependencies without Puppeteer browser download
 if [[ -f "package.json" ]]; then
-    npm install
+    npm install --no-optional
 else
-    # Manual installation if package.json doesn't exist
-    npm install whatsapp-web.js qrcode-terminal
+    # Manual installation for Termux
+    print_status "Manual dependency installation for Termux..."
+    npm install whatsapp-web.js@1.19.5 qrcode-terminal@0.12.0 --no-optional
 fi
 
 if [[ $? -eq 0 ]]; then

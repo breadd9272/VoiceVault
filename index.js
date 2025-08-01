@@ -37,7 +37,30 @@ class WhatsAppBot {
                 '--disable-ipc-flooding-protection',
                 '--disable-background-media-suspend'
             );
-            // Don't set executablePath for Termux - let it find Chrome automatically
+            
+            // Try to find Chromium in Termux
+            const fs = require('fs');
+            const termuxChromiumPaths = [
+                process.env.PREFIX + '/bin/chromium',
+                process.env.PREFIX + '/bin/chromium-browser',
+                '/data/data/com.termux/files/usr/bin/chromium'
+            ];
+            
+            for (const chromiumPath of termuxChromiumPaths) {
+                try {
+                    if (fs.existsSync(chromiumPath)) {
+                        puppeteerConfig.executablePath = chromiumPath;
+                        console.log(`📱 Using Termux Chromium: ${chromiumPath}`);
+                        break;
+                    }
+                } catch (e) {
+                    // Continue to next path
+                }
+            }
+            
+            if (!puppeteerConfig.executablePath) {
+                console.log('⚠️  Chromium not found in Termux. Install with: pkg install chromium');
+            }
         } else {
             // Non-Termux environment (like Replit)
             puppeteerConfig.executablePath = '/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium';

@@ -1,0 +1,25 @@
+{
+  "name": "whatsapp-voice-bot-termux",
+  "version": "2.0.0",
+  "description": "WhatsApp Voice Bot optimized for Termux/Android",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "termux": "node index.js",
+    "test": "node install-termux.js"
+  },
+  "dependencies": {
+    "whatsapp-web.js": "^1.19.5",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "peerDependencies": {
+    "puppeteer": ">=13.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "os": ["linux", "android"],
+  "keywords": ["whatsapp", "bot", "termux", "android", "voice", "automation"],
+  "author": "WhatsApp Voice Bot",
+  "license": "MIT"
+}
