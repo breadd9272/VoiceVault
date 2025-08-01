@@ -1,8 +1,19 @@
 const path = require('path');
+const os = require('os');
+
+// Detect Termux environment
+const isTermux = process.env.PREFIX && process.env.PREFIX.includes('com.termux');
+const isAndroid = process.platform === 'android' || isTermux;
 
 const config = {
-    // Voice storage directory
-    VOICES_DIR: path.join(process.cwd(), 'voices'),
+    // Environment detection
+    IS_TERMUX: isTermux,
+    IS_ANDROID: isAndroid,
+    PLATFORM: process.platform,
+    // Voice storage directory (Termux-aware)
+    VOICES_DIR: isTermux ? 
+        path.join(process.env.HOME || process.cwd(), 'whatsapp-bot-voices') : 
+        path.join(process.cwd(), 'voices'),
     
     // Timeout for voice upload after !save voice command (2 minutes)
     VOICE_UPLOAD_TIMEOUT: 2 * 60 * 1000,

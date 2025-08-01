@@ -6,26 +6,48 @@ const config = require('./config/config');
 class WhatsAppBot {
     constructor() {
         // Initialize WhatsApp client with local authentication
+        // Detect if running in Termux environment
+        const isTermux = process.env.PREFIX && process.env.PREFIX.includes('com.termux');
+        const isAndroid = process.platform === 'android' || isTermux;
+        
+        let puppeteerConfig = {
+            headless: true,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--single-process',
+                '--disable-gpu',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor'
+            ]
+        };
+
+        // Add Termux/Android specific configurations
+        if (isTermux || isAndroid) {
+            console.log('📱 Detected Termux/Android environment');
+            puppeteerConfig.args.push(
+                '--disable-background-timer-throttling',
+                '--disable-backgrounding-occluded-windows',
+                '--disable-renderer-backgrounding',
+                '--disable-features=TranslateUI',
+                '--disable-ipc-flooding-protection',
+                '--disable-background-media-suspend'
+            );
+            // Don't set executablePath for Termux - let it find Chrome automatically
+        } else {
+            // Non-Termux environment (like Replit)
+            puppeteerConfig.executablePath = '/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium';
+        }
+
         this.client = new Client({
             authStrategy: new LocalAuth({
                 clientId: "whatsapp-voice-bot"
             }),
-            puppeteer: {
-                headless: true,
-                args: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-accelerated-2d-canvas',
-                    '--no-first-run',
-                    '--no-zygote',
-                    '--single-process',
-                    '--disable-gpu',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor'
-                ],
-                executablePath: '/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium'
-            }
+            puppeteer: puppeteerConfig
         });
 
         this.voiceHandler = new VoiceHandler();

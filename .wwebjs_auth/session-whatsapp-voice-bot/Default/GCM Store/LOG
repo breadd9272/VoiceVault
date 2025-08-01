@@ -1,3 +1,2 @@
-2025/08/01-22:57:31.164 900 Reusing MANIFEST /home/runner/workspace/.wwebjs_auth/session-whatsapp-voice-bot/Default/GCM Store/MANIFEST-000001
-2025/08/01-22:57:31.165 900 Recovering log #3
-2025/08/01-22:57:31.165 900 Reusing old log /home/runner/workspace/.wwebjs_auth/session-whatsapp-voice-bot/Default/GCM Store/000003.log 
+2025/08/01-23:23:17.652 f13 Creating DB /home/runner/workspace/.wwebjs_auth/session-whatsapp-voice-bot/Default/GCM Store since it was missing.
+2025/08/01-23:23:17.679 f13 Reusing MANIFEST /home/runner/workspace/.wwebjs_auth/session-whatsapp-voice-bot/Default/GCM Store/MANIFEST-000001

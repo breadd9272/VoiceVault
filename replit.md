@@ -8,6 +8,7 @@ This is a WhatsApp bot that enables users to save, manage, and replay voice mess
 
 Preferred communication style: Simple, everyday language.
 User prefers Urdu/Hindi language for communication.
+User wants Termux/mobile compatibility for running the bot on Android devices.
 
 ## System Architecture
 
@@ -49,9 +50,11 @@ The application follows a modular, event-driven architecture with clear separati
 - **qrcode-terminal**: QR code generation for WhatsApp authentication in terminal
 
 ### Runtime Environment
-- **Node.js**: JavaScript runtime environment
+- **Node.js**: JavaScript runtime environment (v14+ required)
 - **Puppeteer**: Automated browser control (bundled with whatsapp-web.js)
 - **File System**: Local storage for voice message persistence
+- **Cross-platform**: Supports Linux, Windows, macOS, and Android (via Termux)
+- **Mobile Optimization**: Memory-optimized for Android devices with Termux-specific configurations
 
 ### WhatsApp Integration Requirements
 - WhatsApp account for bot operation
