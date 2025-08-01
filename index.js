@@ -129,26 +129,43 @@ class WhatsAppBot {
     async handleMessage(message) {
         const content = message.body.trim();
         const isFromMe = message.fromMe;
+        const chat = await message.getChat();
+        const contact = await message.getContact();
+
+        // Debug logging
+        console.log(`📱 Message from: ${contact.name || contact.pushname || contact.number}`);
+        console.log(`📝 Message content: "${content}"`);
+        console.log(`🔍 From me: ${isFromMe}`);
+        console.log(`💬 Chat type: ${chat.isGroup ? 'Group' : 'Individual'}`);
 
         // Only process messages from the bot owner (self)
         if (!isFromMe) {
+            console.log('⚠️ Ignoring message (not from me)');
             return;
         }
 
         // Log received command
-        console.log(`📝 Command received: ${content}`);
+        console.log(`✅ Processing command: ${content}`);
 
         // Parse and handle commands
         if (content.startsWith('!save voice ')) {
+            console.log('🎤 Handling save voice command');
             await this.handleSaveVoiceCommand(message, content);
         } else if (content.startsWith('!spam ')) {
+            console.log('📤 Handling spam command');
             await this.handleSpamCommand(message, content);
         } else if (content.startsWith('!') && !content.includes(' ')) {
+            console.log('▶️ Handling play voice command');
             await this.handlePlayVoiceCommand(message, content);
-        } else if (content === '!list voices') {
+        } else if (content === '!list voices' || content === '!list') {
+            console.log('📋 Handling list voices command');
             await this.handleListVoicesCommand(message);
         } else if (content.startsWith('!delete voice ')) {
+            console.log('🗑️ Handling delete voice command');
             await this.handleDeleteVoiceCommand(message, content);
+        } else if (content.startsWith('!')) {
+            console.log('❓ Unknown command:', content);
+            await message.reply(`❌ Unknown command: ${content}\n\nAvailable commands:\n- !save voice [name]\n- ![name]\n- !list voices\n- !delete voice [name]\n- !spam [message] [amount]`);
         }
     }
 
