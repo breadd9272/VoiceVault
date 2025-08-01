@@ -1,0 +1,37 @@
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["glib", "dbus", "atk", "gtk3", "mesa", "alsa-lib", "chromium"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "WhatsApp Voice Bot"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatsapp_bot_test"
+
+[[workflows.workflow]]
+name = "WhatsApp Voice Bot"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install whatsapp-web.js qrcode-terminal && node index.js"
+
+[[workflows.workflow]]
+name = "whatsapp_bot_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install whatsapp-web.js qrcode-terminal && node index.js"
