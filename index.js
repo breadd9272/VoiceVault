@@ -359,8 +359,12 @@ const bot = new WhatsAppBot();
 const originalHandleMessage = bot.handleMessage.bind(bot);
 bot.handleMessage = async function(message) {
     // Check if this is a voice message and we're expecting one
-    if (message.hasMedia && message.type === 'ptt') { // ptt = push to talk (voice message)
+    console.log(`🔍 Voice check - hasMedia: ${message.hasMedia}, type: ${message.type}, pending: ${bot.voiceHandler.getAnyPendingVoice()}`);
+    
+    if (message.hasMedia && (message.type === 'ptt' || message.type === 'audio')) { // ptt or audio = voice message
         const pendingVoice = bot.voiceHandler.getAnyPendingVoice();
+        console.log(`🎤 Voice message detected! Pending voice: ${pendingVoice}, From me: ${message.fromMe}`);
+        
         if (pendingVoice && message.fromMe) {
             try {
                 const media = await message.downloadMedia();
