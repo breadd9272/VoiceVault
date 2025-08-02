@@ -22,7 +22,18 @@ class WhatsAppBot {
                 '--single-process',
                 '--disable-gpu',
                 '--disable-web-security',
-                '--disable-features=VizDisplayCompositor'
+                '--disable-features=VizDisplayCompositor',
+                '--force-device-scale-factor=1',
+                '--disable-background-timer-throttling',
+                '--disable-backgrounding-occluded-windows',
+                '--disable-renderer-backgrounding',
+                '--disable-extensions',
+                '--no-default-browser-check',
+                '--disable-plugins',
+                '--disable-translate',
+                '--disable-sync',
+                '--disable-component-extensions-with-background-pages',
+                '--user-data-dir=' + process.cwd() + '/.wwebjs_auth/chromium-data-' + Date.now()
             ]
         };
 
