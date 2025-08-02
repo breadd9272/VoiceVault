@@ -33,7 +33,7 @@ class WhatsAppBot {
                 '--disable-translate',
                 '--disable-sync',
                 '--disable-component-extensions-with-background-pages',
-                '--user-data-dir=' + process.cwd() + '/.wwebjs_auth/chromium-data-' + Date.now()
+                '--user-data-dir=' + process.cwd() + '/.wwebjs_auth/chromium-persistent'
             ]
         };
 
@@ -79,9 +79,13 @@ class WhatsAppBot {
 
         this.client = new Client({
             authStrategy: new LocalAuth({
-                clientId: "whatsapp-voice-bot"
+                clientId: "whatsapp-voice-bot",
+                dataPath: "./.wwebjs_auth"
             }),
-            puppeteer: puppeteerConfig
+            puppeteer: puppeteerConfig,
+            // Persistent session options
+            session: "whatsapp-voice-bot-session",
+            restartOnAuthFail: false
         });
 
         this.voiceHandler = new VoiceHandler();
@@ -142,16 +146,24 @@ class WhatsAppBot {
         // Handle authentication success
         this.client.on('authenticated', () => {
             console.log('✅ Authentication successful!');
+            console.log('🔒 Session saved - no need to scan QR again on restart');
         });
 
         // Handle authentication failure
         this.client.on('auth_failure', (msg) => {
             console.error('❌ Authentication failed:', msg);
+            console.log('🔄 You may need to scan QR code again');
         });
 
         // Handle disconnection
         this.client.on('disconnected', (reason) => {
             console.log('⚠️ Client was logged out:', reason);
+            console.log('🔄 Bot will try to reconnect automatically...');
+        });
+
+        // Handle loading session data
+        this.client.on('loading_screen', (percent, message) => {
+            console.log(`📱 Loading WhatsApp: ${percent}% - ${message}`);
         });
     }
 

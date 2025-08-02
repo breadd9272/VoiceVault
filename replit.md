@@ -22,7 +22,9 @@ The application follows a modular, event-driven architecture with clear separati
 
 ### WhatsApp Integration
 - Uses `whatsapp-web.js` with LocalAuth strategy for persistent authentication
-- Implements QR code authentication for initial setup
+- **Persistent Session Management**: QR code scan required only once, then auto-login on restarts
+- Fixed user data directory for consistent session storage (`.wwebjs_auth/chromium-persistent`)
+- Enhanced authentication event handling with session loading feedback
 - Configured with Puppeteer for headless browser automation with optimized arguments for server environments
 
 ### Voice Message Storage
