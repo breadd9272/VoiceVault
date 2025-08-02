@@ -334,13 +334,17 @@ class WhatsAppBot {
             console.log(`📢 Starting spam: "${messageText}" x ${amount} times`);
 
             const chat = await message.getChat();
-            const delay = 200; // 200ms delay = 5 messages per second
+            const delay = 50; // 50ms delay = 20 messages per second (much faster!)
 
             for (let i = 1; i <= amount; i++) {
                 await chat.sendMessage(`${messageText}`);
-                console.log(`📤 Spam message ${i}/${amount} sent`);
                 
-                // Add delay between messages (5 per second)
+                // Log every 10 messages to reduce console spam
+                if (i % 10 === 0 || i === amount) {
+                    console.log(`📤 Spam progress: ${i}/${amount} messages sent`);
+                }
+                
+                // Add minimal delay for smooth sending
                 if (i < amount) {
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
