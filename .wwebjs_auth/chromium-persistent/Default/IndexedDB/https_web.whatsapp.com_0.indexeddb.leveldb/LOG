@@ -1,14 +1,17 @@
-2025/08/02-09:21:12.006 116e Reusing MANIFEST /home/runner/workspace/.wwebjs_auth/chromium-persistent/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/08/02-09:21:12.006 116e Recovering log #149
-2025/08/02-09:21:12.086 116e Reusing old log /home/runner/workspace/.wwebjs_auth/chromium-persistent/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000149.log 
-2025/08/02-09:21:14.412 116e Level-0 table #157: started
-2025/08/02-09:21:14.460 116e Level-0 table #157: 312998 bytes OK
-2025/08/02-09:21:14.492 116e Delete type=0 #149
-2025/08/02-09:21:14.493 116c Manual compaction at level-0 from '\x00\x19\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1a\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/08/02-09:21:18.387 116b Compacting 1@1 + 4@2 files
-2025/08/02-09:21:19.044 116b Generated table #158@1: 90275 keys, 2241973 bytes
-2025/08/02-09:21:19.833 116b Generated table #159@1: 22887 keys, 2209194 bytes
-2025/08/02-09:21:20.531 116b Generated table #160@1: 15302 keys, 2189103 bytes
-2025/08/02-09:21:20.653 116b Generated table #161@1: 38393 keys, 1335114 bytes
-2025/08/02-09:21:20.653 116b Compacted 1@1 + 4@2 files => 7975384 bytes
-2025/08/02-09:21:20.672 116b compacted to: files[ 0 0 4 0 0 0 0 ]
+2025/08/02-09:25:24.640 1763 Reusing MANIFEST /home/runner/workspace/.wwebjs_auth/chromium-persistent/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/02-09:25:24.642 1763 Recovering log #444
+2025/08/02-09:25:24.887 1763 Reusing old log /home/runner/workspace/.wwebjs_auth/chromium-persistent/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000444.log 
+2025/08/02-09:25:26.677 1763 Level-0 table #455: started
+2025/08/02-09:25:26.729 1763 Level-0 table #455: 778607 bytes OK
+2025/08/02-09:25:26.752 1763 Delete type=0 #444
+2025/08/02-09:25:26.753 1763 Manual compaction at level-0 from '\x00\x1a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1b\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/02-09:25:29.818 1766 Compacting 1@1 + 7@2 files
+2025/08/02-09:25:30.231 1766 Generated table #456@1: 88500 keys, 2239505 bytes
+2025/08/02-09:25:30.419 1766 Generated table #457@1: 96691 keys, 2248403 bytes
+2025/08/02-09:25:30.560 1766 Generated table #458@1: 101370 keys, 2253761 bytes
+2025/08/02-09:25:30.661 1766 Generated table #459@1: 44507 keys, 2244599 bytes
+2025/08/02-09:25:30.810 1766 Generated table #460@1: 7704 keys, 2163928 bytes
+2025/08/02-09:25:31.059 1766 Generated table #461@1: 39252 keys, 2223959 bytes
+2025/08/02-09:25:31.125 1766 Generated table #462@1: 61865 keys, 1282184 bytes
+2025/08/02-09:25:31.126 1766 Compacted 1@1 + 7@2 files => 14656339 bytes
+2025/08/02-09:25:31.144 1766 compacted to: files[ 0 0 7 0 0 0 0 ]

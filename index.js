@@ -206,7 +206,11 @@ class WhatsAppBot {
             await this.handleDeleteVoiceCommand(message, content);
         } else if (content.startsWith('!')) {
             console.log('❓ Unknown command:', content);
-            await message.reply(`❌ Unknown command: ${content}\n\nAvailable commands:\n- !save voice [name]\n- ![name]\n- !list voices\n- !delete voice [name]\n- !spam [message] [amount]`);
+            await message.reply(`❌ Unknown command: ${content}\n\nAvailable commands:\n- !save voice [name]\n- ![name] or just [name]\n- !list voices\n- !delete voice [name]\n- !spam [message] [amount]`);
+        } else {
+            // Check if message matches a saved voice name (without ! prefix)
+            console.log('🔍 Checking for voice name match:', content);
+            await this.handleSmartVoiceDetection(message, content);
         }
     }
 
@@ -271,8 +275,8 @@ class WhatsAppBot {
             if (voices.length === 0) {
                 await message.reply('📝 No voices saved yet. Use !save voice [name] to save a voice.');
             } else {
-                const voiceList = voices.map(voice => `• ${voice}`).join('\n');
-                await message.reply(`🎵 Saved voices:\n${voiceList}\n\nUse ![name] to play a voice.`);
+                const voiceList = voices.map(voice => `• ${voice} → !${voice} or just "${voice}"`).join('\n');
+                await message.reply(`🎵 Saved voices:\n${voiceList}\n\n💡 Smart play: Type ![name] or just the name directly!`);
             }
         } catch (error) {
             console.error('Error listing voices:', error);
@@ -299,6 +303,32 @@ class WhatsAppBot {
         } catch (error) {
             console.error(`Error deleting voice ${voiceName}:`, error);
             await message.reply(`❌ Error deleting voice "${voiceName}".`);
+        }
+    }
+
+    async handleSmartVoiceDetection(message, content) {
+        // Only check for voice names if it's a single word without spaces
+        if (content.includes(' ') || content.length === 0) {
+            return; // Ignore multi-word messages or empty content
+        }
+
+        try {
+            // Get list of saved voices
+            const voices = await this.voiceHandler.listVoices();
+            
+            // Check if the message content exactly matches a saved voice name
+            if (voices.includes(content)) {
+                console.log(`🎵 Smart voice detection: Found voice "${content}"`);
+                const voiceMedia = await this.voiceHandler.getVoice(content);
+                if (voiceMedia) {
+                    await message.reply(voiceMedia);
+                    console.log(`🔊 Auto-played voice: ${content}`);
+                } else {
+                    console.log(`❌ Voice file missing for: ${content}`);
+                }
+            }
+        } catch (error) {
+            console.error('Error in smart voice detection:', error);
         }
     }
 
